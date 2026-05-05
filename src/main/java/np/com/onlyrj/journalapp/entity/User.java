@@ -1,6 +1,7 @@
 package np.com.onlyrj.journalapp.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -11,8 +12,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 @Document(collection = "users")
+@Data
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -25,7 +28,7 @@ public class User {
     @NonNull
     private String password;
 
-    @DBRef      //it's just like the foreign key in sql db
+    @DBRef      //it's just like the foreign key in SQL db
     private List<JournalEntry> journalEntryList = new ArrayList<>();
 
 }
