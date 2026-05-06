@@ -6,6 +6,7 @@ import np.com.onlyrj.journalapp.entity.User;
 import np.com.onlyrj.journalapp.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +27,7 @@ public class JournalEntryService {
 
 
     // Service for Create entry
+    @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName){
         try {
             User user = userService.findByUserName(userName);
@@ -34,7 +36,9 @@ public class JournalEntryService {
             user.getJournalEntryList().add(saved);
             userService.saveEntry(user);
         }catch (Exception e){
-            log.error("Exception", e);
+//            log.error("Exception", e);
+            System.out.println(e);
+            throw new RuntimeException("An error occur during saving journal entries...", e);
         }
     }
 

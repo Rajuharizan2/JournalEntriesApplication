@@ -70,6 +70,10 @@ public class JournalController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
+
+
+
     @PutMapping("/myId/{userName}/{id}")
     public ResponseEntity<?> updateEntryById(@PathVariable ObjectId id,
                                              @RequestBody JournalEntry newEntry,
