@@ -31,4 +31,6 @@ public class User {
     @DBRef      //it's just like the foreign key in SQL db
     private List<JournalEntry> journalEntryList = new ArrayList<>();
 
+    private List<String> role;
+
 }

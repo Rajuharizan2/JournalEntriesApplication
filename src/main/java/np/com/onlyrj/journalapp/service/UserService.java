@@ -1,37 +1,42 @@
 package np.com.onlyrj.journalapp.service;
 
+import jakarta.annotation.Nonnull;
 import np.com.onlyrj.journalapp.entity.User;
 import np.com.onlyrj.journalapp.repository.UserRepository;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
-
-    // Service for Create entry
-    public User saveEntry(User user){
+    public User saveEntry(@Nonnull User user){
+        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        user.setRole(Arrays.asList("USER"));
         userRepository.save(user);
         return user;
+    }
+
+    public void saveNewUser(User user){
+        userRepository.save(user);
     }
 
     public Optional <User> getUserById(ObjectId id){
         return userRepository.findById(id);
     }
 
-    // Get all entries
-    public List<User> getAllUser(){
-        return userRepository.findAll();
-    }
 
 
     public User findByUserName(String userName){
@@ -40,9 +45,5 @@ public class UserService {
 
     public void deleteById(ObjectId id){
         userRepository.deleteById(id);
-    }
-
-    public User createUser(User user) {
-        return userRepository.save(user);
     }
 }

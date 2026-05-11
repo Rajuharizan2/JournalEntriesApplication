@@ -34,7 +34,7 @@ public class JournalController {
 
 
 
-    @GetMapping("/user/{userName}")
+    @GetMapping("/{userName}")
     public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String userName){
         User user = userService.findByUserName(userName);
         if(user == null){
